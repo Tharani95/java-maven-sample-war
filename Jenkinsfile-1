@@ -1,0 +1,31 @@
+pipeline{
+  
+   agent any
+   tools{
+     maven 'maven3.8.6'
+
+  }
+  stages{
+  stage('CheckOutCode'){
+    steps{
+    git credentialsId: 'GITCredentials', url: 'https://github.com/Tharani95/java-maven-sample-war.git'
+	
+	}
+  } 
+
+  stage('Build'){
+  steps{
+  sh  "mvn clean package"
+  }
+  }
+ 
+  stage('TomcatDeploy')
+  {
+      steps{
+          sshagent(['privateKeyforTomcat']) {
+     ansiblePlaybook credentialsId: 'tomcat2', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventoryfile', playbook: 'tomcat_deploy.yaml'
+     
+     } }
+  }
+    
+}}
