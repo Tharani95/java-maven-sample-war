@@ -1,0 +1,26 @@
+pipeline {
+    agent {
+    label ('ansible')
+    }
+    tools{
+     maven 'maven3'
+    }
+
+    stages {
+        stage('scm') {
+            steps {
+               git 'https://github.com/Tharani95/java-maven-sample-war.git'
+            }
+        }
+		stage('build') {
+            steps {
+               sh 'mvn clean package'
+            }
+        }
+		stage('deploy') {
+            steps {
+               sh 'ansible-playbook tomcat_deploy.yaml'
+            }
+        }
+    }
+}
