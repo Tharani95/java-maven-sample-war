@@ -4,7 +4,7 @@
 
 	<groupId>com.github.Premvikash</groupId>
 	<artifactId>Example</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Example</name>
 	<packaging>war</packaging>
 	<url>https://github.com/Premvikash/</url>
@@ -27,7 +27,7 @@
    <repository>        
       <id>central</id>        
       <name>release</name>  
-      <url>http://13.232.219.41:8081/artifactory/libs-release-local/</url> 
+      <url>http://13.232.219.41:8081/artifactory/libs-release-local/</url>  
    </repository>    
    <snapshotRepository>        
       <id>snapshots</id>        
