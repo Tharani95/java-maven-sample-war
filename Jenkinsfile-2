@@ -1,0 +1,36 @@
+pipeline {
+  agent any
+  stages{
+    stage('scm') {  
+      steps {
+        git 'https://github.com/Tharani95/java-maven-sample-war.git'
+	 	  }
+    }
+    stage('SonarQube analysis') {
+      steps{
+	      withSonarQubeEnv('SonarCloud') {
+          sh "mvn sonar:sonar"
+        }
+      } 
+     }
+	/*stage('Quality Gate') {
+	  steps{
+           timeout(time: 2, unit: 'MINUTES') {
+             waitForQualityGate abortPipeline: true
+           }
+	   }
+        }*/
+	   stage('Execute Maven') {
+       steps {
+            // rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+	       sh 'mvn clean deploys'
+	     }
+      }    
+     stage('deploy') {  
+       steps {
+         sh 'ansible-playbook tomcat_deploy.yaml'
+		    }
+	    }
+	  }
+ }
+       
