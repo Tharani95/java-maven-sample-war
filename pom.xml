@@ -61,7 +61,7 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			<plugin>  
+			/*<plugin>  
          <groupId>org.owasp</groupId>  
          <artifactId>dependency-check-maven</artifactId>  
          <version>6.0.2</version>  
@@ -81,7 +81,7 @@
            <!-- Am I the latest version? -->  
            <versionCheckEnabled>true</versionCheckEnabled>  
          </configuration>  
-       </plugin>  
+       </plugin>  */
 
 			
 <plugin>
