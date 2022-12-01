@@ -23,7 +23,7 @@ pipeline {
 	   stage('Execute Maven') {
        steps {
             // rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-	       sh 'mvn clean deploys'
+	       sh 'mvn clean deploy'
 	     }
       }    
      stage('deploy') {  
