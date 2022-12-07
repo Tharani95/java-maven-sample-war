@@ -1,0 +1,153 @@
+def target
+pipeline{
+    agent {
+    label ('ansible')
+    }
+    tools{
+     maven 'maven3'
+    }
+     parameters {
+                 
+                 
+ 
+         string defaultValue: "http://43.204.141.25:8080",
+                 description: 'Target URL to scan',
+                 name: 'TARGET'
+ 
+         booleanParam defaultValue: true,
+                 description: 'Parameter to know if wanna generate report.',
+                 name: 'GENERATE_REPORT'
+     }
+    stages{
+     stage('scm') {  
+       steps {
+	 script{
+
+           git 'https://github.com/Tharani95/java-maven-sample-war.git'
+
+         }
+       }
+     }
+      stage('SonarQube analysis') {
+        steps{
+	  script{
+            withSonarQubeEnv('SonarCloud') {
+              sh "mvn sonar:sonar"
+             }
+	   }
+         } 
+      
+        }
+        stage('Execute Maven') {
+         steps {
+           script {
+            // rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+	         sh 'mvn clean deploy'  
+	       }
+         }     
+       }   
+        
+	
+
+       stage('deploy') {  
+         steps {
+	       script{
+             sh 'ansible-playbook tomcat_deploy.yaml'	 
+	       }
+	      }
+        }
+            stage('OWASPzap')
+        {
+          stages
+          {
+           /* stage('Pipeline Info') {
+              agent { label 'owaspnode' }    
+              steps {
+                script {
+                         echo "<--Parameter Initialization-->"
+                         echo """
+                         The current parameters are:
+                             
+                             Target: ${params.TARGET}
+                             Generate report: ${params.GENERATE_REPORT}
+                         """
+                     }
+                 }
+             }*/
+             stage('Setting up OWASP ZAP docker container') {
+             agent { label 'owaspnode' }
+               steps {
+                 script {
+                         echo "Pulling up last OWASP ZAP container --> Start"
+                         sh 'docker pull owasp/zap2docker-stable'
+                         echo "Pulling up last VMS container --> End"
+                         echo "Starting container --> Start"
+                         sh """
+                         docker run -dt --name owasp \
+                         owasp/zap2docker-stable \
+                         /bin/bash
+                         """
+                        
+                   }
+                }
+              }
+              stage('Prepare wrk directory') {
+               agent { label 'owaspnode' }      
+                when {     
+                        
+                         environment name : 'GENERATE_REPORT', value: 'true'
+                }
+                steps {
+                  script {
+                         sh """
+                             docker exec owasp \
+                             mkdir /zap/wrk
+                         """
+                     }
+                 }
+              }
+ 
+              stage('Scanning target on owasp container') {
+              agent { label 'owaspnode' }    
+                steps {
+                  script {
+                     
+                    
+                     target = "${params.TARGET}"
+                     
+                         sh """
+                             docker exec owasp \
+                             zap-baseline.py \
+                             -t $target \
+                             -x report.xml \
+                             -I
+                         """
+                    }
+                }
+               }
+               stage('Copy Report to Workspace'){
+               agent { label 'owaspnode' }       
+                 steps{
+                   script {
+                     sh '''
+                         docker cp owasp:/zap/wrk/report.xml ${WORKSPACE}/report.xml
+                     '''
+                    }
+                  }
+                }  
+             }
+        } 
+    }
+ 
+     post {
+       always {
+           node('owaspnode'){
+                 echo "Removing container"
+                 sh '''
+                     docker stop owasp
+                     docker rm owasp
+                 '''
+           }
+       }
+    }
+}
