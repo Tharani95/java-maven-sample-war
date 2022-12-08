@@ -1,0 +1,139 @@
+def target
+pipeline{
+    agent { label ('owaspnode') } 
+    tools{
+     maven 'maven3'
+    }
+     
+    stages{
+     stage('scm') {
+       steps {
+	 script{
+
+           git 'https://github.com/Tharani95/java-maven-sample-war.git'
+
+         }
+       }
+     }
+      
+      stage("Dependency-Check") {
+            agent {
+                docker {
+                    image "owasp/dependency-check:5.3.0"
+                    // Set user to root, as the container runs by default under 100:101
+                    args '''\
+                        --user 0 \
+                        --volume dependency-check:/usr/share/dependency-check/data:rw \
+                        --volume ${WORKSPACE}:/src:ro \
+                        --volume ${WORKSPACE}/reports:/reports:rw \
+                        --entrypoint ""
+                    '''
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                    // Fail stage when a vulnerability having a base CVSS score of 6 or higher is found
+                    def result = sh label: "dependency-check", returnStatus: true,
+                      script: """\
+                            mkdir -p reports &>/dev/null
+                            # Fix permissions as this container is being run as root
+                            chown "1000:1000" reports
+                            /usr/share/dependency-check/bin/dependency-check.sh \
+                            --failOnCVSS 6 \
+                            --out "${WORKSPACE}/reports" \
+                            --project "${JOB_BASE_NAME}" \
+                            --scan "/src"
+                            # Fix permissions as this container is being run as root
+                            chown "0:0" reports/dependency-check-report.html
+                        """
+                    if (result > 0) {
+                        unstable(message: "Insecure libraries found")
+                    }
+                    
+                }}
+           
+        
+      }
+      stage('Execute Maven') {
+         agent {
+    label ('ansible')
+    } 
+         steps {
+           script {
+            // rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+	         sh 'mvn clean deploy'  
+	       }
+         }     
+       }   
+      stage('deploy') {
+           agent {
+    label ('ansible')
+    } 
+         steps {
+	       script{
+             sh 'ansible-playbook tomcat_deploy.yaml'	 
+	       }
+	      }
+        }
+      
+      
+      
+      
+      
+      
+      
+      
+      /*stage('Pipeline Info') {
+  agent { label 'owaspnode' }    
+    steps {
+     script {
+     echo "<--Parameter Initialization-->"
+          echo """
+          DC_VERSION="latest"
+          DC_DIRECTORY=$HOME/OWASP-Dependency-Check
+          DC_PROJECT="dependency-check scan: /usr/share/dependency-check/data"
+          DATA_DIRECTORY="$DC_DIRECTORY/data"
+          CACHE_DIRECTORY="$DC_DIRECTORY/data/cache"
+          """
+
+       echo "Initially creating persistent directory: $DATA_DIRECTORY"
+      sh 'mkdir -p ${DATA_DIRECTORY}'
+     
+       echo "Initially creating persistent directory: $CACHE_DIRECTORY"
+      sh 'mkdir -p ${CACHE_DIRECTORY}'
+
+                     }
+                 }
+      }}
+  stage('depency-check') {
+  agent { label 'owaspnode' }    
+    steps {
+     script {
+
+docker pull owasp/dependency-check:$DC_VERSION
+
+docker run --rm \
+    -e user=$USER \
+    -u $(id -u ${USER}):$(id -g ${USER}) \
+    --volume /usr/share/dependency-check/data:/src:z \
+    --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
+    --volume /usr/share/dependency-check/data/odc-reports:/report:z \
+    owasp/dependency-check:$DC_VERSION \
+    --scan /src \
+    --format "ALL" \
+    --project "$DC_PROJECT" \
+    --out /report
+    # Use suppression like this: (where /src == $pwd)
+    # --suppression "/src/security/dependency-check-suppression.xml"
+
+   }}}}
+
+     */ 
+      
+      
+
+   
+    }
+ 
+}
