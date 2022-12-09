@@ -4,5 +4,5 @@
   tasks:
     - name: Deploy in tomcat
       copy:
-        src: target/Example-0.0.1-SNAPSHOT.war
+        src: target/web_app.war
         dest: /opt/tomcat/webapps
