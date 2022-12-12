@@ -1,0 +1,18 @@
+- hosts: tomcat
+  become: true
+  tasks:
+    -name: 
+     maven_artifact:
+        group_id: com.github.Premvikash
+        artifact_id: Example
+        extension: war
+        version: 0.0.1
+        repository_url: "http://3.109.139.250:8081/artifactory/libs-release"
+        username: admin
+        password: admin123
+        dest: "/tmp/Example-0.0.1.war"
+        mode: '0644'
+    - name: Deploy in tomcat
+      copy:
+        src: /tmp/Example-0.0.1.war
+        dest: /opt/tomcat/webapps
