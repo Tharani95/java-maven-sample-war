@@ -26,10 +26,6 @@
         src: /tmp/Example-0.0.1-SNAPSHOT.war
         dest: /opt/tomcat/webapps
         remote_src: yes
-    - name: stop the tomcat
-      shell: /opt/tomcat/bin/shutdown.sh
-    - name: start the tomcat
-      shell: /opt/tomcat/bin/startup.sh 
     - name: Reload service tomcat
       service:
         name: tomcat
