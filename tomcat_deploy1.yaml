@@ -4,10 +4,10 @@
     - name: check whether the war file exist
       stat:
         path: /tmp/Example-0.0.1-SNAPSHOT.war
-        register: exist
+      register: exist
     - name: remove war file from temp folder
       shell: rm -rf /tmp/Example-0.0.1-SNAPSHOT.war
-      when: stat.register != exist
+      when: exist.stat == True
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
