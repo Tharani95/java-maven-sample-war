@@ -6,7 +6,7 @@
         group_id: com.github.Premvikash
         artifact_id: Example
         extension: war
-        version: 0.0.1-SNAPSHOT
+        version: latest
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
         username: admin
         password: admin123
