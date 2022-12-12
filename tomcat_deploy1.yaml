@@ -10,7 +10,7 @@
         repository_url: "http://3.109.139.250:8081/artifactory/libs-release-local"
         username: admin
         password: admin123
-        dest: "/tmp/Example-0.0.1.war"
+        dest: /tmp/Example-0.0.1.war
         mode: '0644'
     - name: Deploy in tomcat
       copy:
