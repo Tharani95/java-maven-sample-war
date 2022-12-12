@@ -1,8 +1,13 @@
 - hosts: tomcat
   become: true
   tasks:
+    - name: check whether the war file exist
+      stat:
+        path: /tmp/Example-0.0.1-SNAPSHOT.war
+        register: exist
     - name: remove war file from temp folder
       shell: rm -rf /tmp/Example-0.0.1-SNAPSHOT.war
+      when: stat.register != exist
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
@@ -14,13 +19,11 @@
         password: admin123
         dest: /tmp/Example-0.0.1-SNAPSHOT.war
         mode: '0644'
-        state: present
     - name: Deploy in tomcat
       copy:
         src: /tmp/Example-0.0.1-SNAPSHOT.war
         dest: /opt/tomcat/webapps
         remote_src: yes
-        mode: '0644'
     - name: stop the tomcat
       shell: /opt/tomcat/bin/shutdown.sh
     - name: start the tomcat
