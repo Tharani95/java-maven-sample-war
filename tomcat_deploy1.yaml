@@ -12,6 +12,7 @@
         password: admin123
         dest: /tmp/Example-0.0.1-SNAPSHOT.war
         mode: '0644'
+        state: present
     - name: Deploy in tomcat
       copy:
         src: /tmp/Example-0.0.1-SNAPSHOT.war
