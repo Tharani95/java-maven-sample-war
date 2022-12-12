@@ -1,7 +1,7 @@
 - hosts: tomcat
   become: true
   tasks:
-    - name: 
+    - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
         artifact_id: Example
