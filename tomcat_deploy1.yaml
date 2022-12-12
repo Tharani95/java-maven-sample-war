@@ -19,3 +19,7 @@
         dest: /opt/tomcat/webapps
         remote_src: yes
         mode: '0644'
+    - name: stop the tomcat
+      shell: /opt/tomcat/bin/shutdown.sh
+    - name: start the tomcat
+      shell: /opt/tomcat/bin/startup.sh    
