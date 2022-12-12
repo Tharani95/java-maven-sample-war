@@ -15,6 +15,6 @@
     - name: Deploy in tomcat
       copy:
         src: /tmp/Example-0.0.1.war
-        dest: /opt/tomcat/webapps
+        dest: /opt/tomcat/webapps/
         remote_src: yes
         mode: 0777
