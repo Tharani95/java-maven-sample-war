@@ -1,8 +1,8 @@
 - hosts: tomcat
   become: true
   tasks:
-    -name: 
-     maven_artifact:
+    - name: 
+      maven_artifact:
         group_id: com.github.Premvikash
         artifact_id: Example
         extension: war
