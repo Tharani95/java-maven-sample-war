@@ -1,6 +1,8 @@
 - hosts: tomcat
   become: true
   tasks:
+    - name: remove war file from temp folder
+       shell: rm -rf /tmp/Example-0.0.1-SNAPSHOT.war
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
