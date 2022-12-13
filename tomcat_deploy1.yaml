@@ -14,11 +14,11 @@
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
         username: "{{ Username }}" 
         password: "{{ Password }}"
-        dest: /tmp/{{ ArtifactVersion }}.war
+        dest: /tmp/"{{ ArtifactVersion }}".war
         mode: '0644'
     - name: Deploy in tomcat
       copy:
-        src: /tmp/{{ ArtifactVersion }}.war
+        src: /tmp/"{{ ArtifactVersion }}".war
         dest: /opt/tomcat/webapps
         remote_src: yes
     - name: stop the tomcat
