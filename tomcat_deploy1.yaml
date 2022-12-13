@@ -5,6 +5,8 @@
   tasks:
     - name: remove artifact file 
       shell: rm -rf Example-0.0.2-SNAPSHOT.war
+    - name: print
+      shell: echo "ArtifactVersion${{ ArtifactVersion }}"   
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
