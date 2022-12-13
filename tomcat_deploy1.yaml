@@ -3,6 +3,8 @@
   vars_files:
     - credentials.var
   tasks:
+    - name: remove artifact file 
+      shell: rm -rf Example-0.0.2-SNAPSHOT.war
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
