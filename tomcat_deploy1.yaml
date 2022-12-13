@@ -19,5 +19,5 @@
         src: /tmp/Example-{{ ArtifactVersion }}.war
         dest: /opt/tomcat/webapps
         remote_src: yes
-        mode: 0777
+       
     
