@@ -3,10 +3,6 @@
   vars_files:
     - credentials.var
   tasks:
-    - name: remove artifact file 
-      shell: rm -rf Example-0.0.2-SNAPSHOT.war
-    - name: print
-      shell: echo "ArtifactVersion${{ ArtifactVersion }}"   
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
@@ -16,11 +12,11 @@
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
         username: "{{ Username }}" 
         password: "{{ Password }}"
-        dest: /tmp/"{{ ArtifactVersion }}".war
+        dest: /tmp/Example-"{{ ArtifactVersion }}".war
         mode: '0644'
     - name: Deploy in tomcat
       copy:
-        src: /tmp/"{{ ArtifactVersion }}".war
+        src: /tmp/Example-"{{ ArtifactVersion }}".war
         dest: /opt/tomcat/webapps
         remote_src: yes
     - name: stop the tomcat
