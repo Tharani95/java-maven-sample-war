@@ -12,7 +12,7 @@
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
         username: admin 
         password: admin123
-        dest: /tmp/Example-.war
+        dest: /tmp/Example-0.0.2-SNAPSHOT.war
         mode: '0644'
     - name: Deploy in tomcat
       copy:
