@@ -1,5 +1,8 @@
 - hosts: tomcat
   become: true
+  vars:
+    - Username: admin
+    - Password: admin123
   tasks:
     - name: remove war file from temp folder
       shell: rm -rf /tmp/Example-0.0.1-SNAPSHOT.war
@@ -10,8 +13,8 @@
         extension: war
         version: 0.0.1-SNAPSHOT
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
-        username: admin
-        password: admin123
+        username: "{{Username}}"
+        password: "{{Password}}"
         dest: /tmp/Example-0.0.1-SNAPSHOT.war
         mode: '0644'
     - name: Deploy in tomcat
