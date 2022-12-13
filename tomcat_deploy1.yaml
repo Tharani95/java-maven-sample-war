@@ -4,17 +4,17 @@
     - credentials.var
   tasks:
     - name: remove war file from temp folder
-      shell: rm -rf /tmp/Example-"{{ ArtifactVersion }}".war
+      shell: rm -rf /tmp/Example-Example-0.0.1-SNAPSHOT.war
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
         artifact_id: Example
         extension: war
-        version: "{{ ArtifactVersion }}"
+        version: Example-0.0.1-SNAPSHOT
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
         username: "{{ Username }}"
         password: "{{ Password }}"
-        dest: /tmp/Example-"{{ ArtifactVersion }}".war
+        dest: /tmp/Example-.war
         mode: '0644'
     - name: Deploy in tomcat
       copy:
