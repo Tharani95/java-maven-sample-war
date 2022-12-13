@@ -1,7 +1,5 @@
 - hosts: tomcat
   become: true
-  vars_files:
-    - credentials.var
   tasks:
     - name: JFrogArtifactToHosttemp
       maven_artifact:
