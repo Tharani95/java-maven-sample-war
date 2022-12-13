@@ -1,0 +1,3 @@
+[tomcat]
+43.204.141.25 ansible_user=ubuntu
+43.204.141.25 ansible_python_interpreter="/usr/bin/python3"
