@@ -1,15 +1,8 @@
 - hosts: tomcat
   become: true
   tasks:
-    - name: check whether the war file exist
-      stat:
-        path: /tmp/Example-0.0.1-SNAPSHOT.war
-      register: exist
     - name: remove war file from temp folder
-      file:
-        path: /tmp/Example-0.0.1.war
-        state: absent
-      when: exist.stat == True
+      shell: rm -rf /tmp/Example-0.0.1-SNAPSHOT.war
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
