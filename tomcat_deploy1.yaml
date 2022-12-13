@@ -3,6 +3,14 @@
   vars_files:
     - credentials.var
   tasks:
+    - name: check whether the file exist:
+      stat:
+        path: /opt/tomcat/webapps/Example-{{ ArtifactVersion }}.war
+      register: exist  
+    - name: msg when exist
+      debug:
+        msg:"exist version"
+      when: exist.stat == True 
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
@@ -20,7 +28,4 @@
         dest: /opt/tomcat/webapps
         remote_src: yes
         mode: 0777
-    - name: stop the tomcat
-      shell: /opt/tomcat/bin/shutdown.sh
-    - name: start the tomcat
-      shell: /opt/tomcat/bin/startup.sh  
+    
