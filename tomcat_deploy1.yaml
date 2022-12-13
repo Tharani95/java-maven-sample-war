@@ -3,13 +3,12 @@
   vars_files:
     - credentials.var
   tasks:
-
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
         artifact_id: Example
         extension: war
-        version: Example-0.0.1-SNAPSHOT
+        version: Example-0.0.2-SNAPSHOT
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
         username: admin 
         password: admin123
@@ -17,7 +16,7 @@
         mode: '0644'
     - name: Deploy in tomcat
       copy:
-        src: /tmp/Example-0.0.1-SNAPSHOT.war
+        src: /tmp/Example-0.0.2-SNAPSHOT.war
         dest: /opt/tomcat/webapps
         remote_src: yes
     - name: stop the tomcat
