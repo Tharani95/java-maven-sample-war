@@ -19,6 +19,7 @@
         src: /tmp/Example-{{ ArtifactVersion }}.war
         dest: /opt/tomcat/webapps
         remote_src: yes
+        mode: 0777
     - name: stop the tomcat
       shell: /opt/tomcat/bin/shutdown.sh
     - name: start the tomcat
