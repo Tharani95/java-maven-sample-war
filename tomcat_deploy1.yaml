@@ -1,8 +1,7 @@
 - hosts: tomcat
   become: true
-  vars:
-    - Username: admin
-    - Password: admin123
+  vars_files:
+    - credentials.var
   tasks:
     - name: remove war file from temp folder
       shell: rm -rf /tmp/Example-0.0.1-SNAPSHOT.war
