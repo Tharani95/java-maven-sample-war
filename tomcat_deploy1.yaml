@@ -1,12 +1,14 @@
 - hosts: tomcat
   become: true
+  vars:
+    my_version: "{{ version }}"
   tasks:
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
         artifact_id: Example
         extension: war
-        version: 0.0.1-SNAPSHOT
+        version: "{{ my_version }}"
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
         username: admin
         password: admin123
