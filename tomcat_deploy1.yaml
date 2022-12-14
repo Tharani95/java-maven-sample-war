@@ -5,6 +5,8 @@
   vars_files:
     - credential.yml
   tasks:
+    - name: remove artifact file 
+      shell: rm -rf Example-{{ my_version }}.war
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
