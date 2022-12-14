@@ -10,8 +10,8 @@
         extension: war
         version: "{{ my_version }}"
         repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
-        username: admin
-        password: admin123
+        username: "{{ Username }}"
+        password: "{{ Password }}"
         dest: /tmp/Example-{{ my_version }}.war
         mode: '0644'
     - name: Deploy in tomcat
