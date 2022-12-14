@@ -15,7 +15,7 @@
         username: "{{ username }}"
         password: "{{ password }}"
         dest: /tmp/Example-{{ my_version }}.war
-        mode: '0644'
+        mode: '0777'
     - name: Deploy in tomcat
       copy:
         src: /tmp/Example-{{ my_version }}.war
