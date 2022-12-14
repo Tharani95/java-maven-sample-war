@@ -2,7 +2,7 @@
   become: true
   vars:
     my_version: "{{ version }}"
-  var_files:
+  vars_files:
     - credential.yml
   tasks:
     - name: JFrogArtifactToHosttemp
