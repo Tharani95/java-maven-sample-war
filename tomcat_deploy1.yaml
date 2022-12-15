@@ -6,7 +6,9 @@
     - credential.yml
   tasks:
     - name: remove artifact file 
-      shell: rm -rf /tmp/Example-{{ my_version }}.war
+      file:
+        path: /tmp/Example-{{ my_version }}.war
+        state: absent
     - name: JFrogArtifactToHosttemp
       maven_artifact:
         group_id: com.github.Premvikash
