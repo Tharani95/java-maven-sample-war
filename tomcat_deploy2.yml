@@ -1,4 +1,4 @@
-- hosts: tomcat
+- hosts: all
   become: true
   vars:
     my_version: "{{ version }}"
