@@ -1,9 +1,7 @@
 - hosts: all
   become: true
   vars:
-    my_version: "{{ version }}"
-  vars:
-    ansible_python_interpreter: /usr/bin/python3  
+    my_version: "{{ version }}" 
   vars_files:
     - credential.yml
   tasks:
