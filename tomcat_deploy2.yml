@@ -2,6 +2,8 @@
   become: true
   vars:
     my_version: "{{ version }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3  
   vars_files:
     - credential.yml
   tasks:
