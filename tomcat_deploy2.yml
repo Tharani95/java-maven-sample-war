@@ -1,0 +1,38 @@
+- hosts: tomcat
+  become: true
+  vars:
+    my_version: "{{ version }}"
+  vars_files:
+    - credential.yml
+  tasks:
+    - name: Install lxml
+      pip: name=lxml
+    - name: download tomcat server packages
+      get_url:
+        url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.27/bin/apache-tomcat-10.0.27.tar.gz
+        dest: /usr/local
+    - name: extract tomcat packages
+      unarchive:
+        src: /usr/local/apache-tomcat-10.0.27.tar.gz
+        dest: /usr/local
+        remote_src: yes  
+    - name: remove artifact file 
+      file:
+        path: /tmp/Example-{{ my_version }}.war
+        state: absent
+    - name: JFrogArtifactToHosttemp
+      maven_artifact:
+        group_id: com.github.Premvikash
+        artifact_id: Example
+        extension: war
+        version: "{{ my_version }}"
+        repository_url: "http://3.109.139.250:8081/artifactory/libs-snapshot-local/"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        dest: /tmp/Example-{{ my_version }}.war
+        mode: '0644'
+    - name: Deploy in tomcat
+      copy:
+        src: /tmp/Example-{{ my_version }}.war
+        dest: /opt/tomcat/webapps
+        remote_src: yes
