@@ -5,8 +5,6 @@
   vars_files:
     - credential.yml
   tasks:
-    - name: Install lxml
-      pip: name=lxml
     - name: download tomcat server packages
       get_url:
         url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.27/bin/apache-tomcat-10.0.27.tar.gz
