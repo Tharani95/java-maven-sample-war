@@ -5,6 +5,9 @@
   vars_files:
     - credential.yml
   tasks:
+    - name: Install pip
+      apt: pip
+        state: present
     - name: Install lxml
       pip: name=lxml
     - name: download tomcat server packages
