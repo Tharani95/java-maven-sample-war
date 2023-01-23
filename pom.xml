@@ -28,7 +28,7 @@
     <snapshotRepository>
         <id>snapshots</id>
         <name>a0xw9spjzk5w7-artifactory-primary-0-snapshots</name>
-        <url>https://tharani.jfrog.io/artifactory/libs-snapshot</url>
+        <url>https://tharani.jfrog.io/artifactory/remote-repo</url>
     </snapshotRepository>
 </distributionManagement>
 
