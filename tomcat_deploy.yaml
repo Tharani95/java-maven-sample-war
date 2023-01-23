@@ -1,6 +1,5 @@
 
 - hosts: tomcat
-  become: true
   tasks:
     - name: Deploy in tomcat
       copy:
