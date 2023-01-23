@@ -23,6 +23,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+/*	
 	<distributionManagement>  
    <repository>        
       <id>central</id>        
@@ -34,7 +35,14 @@
       <name>snapshot</name>        
       <url>http://3.109.139.250:8081/artifactory/libs-snapshot-local</url>    
    </snapshotRepository>   
- </distributionManagement>
+ </distributionManagement>*/
+<distributionManagement>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>a0xw9spjzk5w7-artifactory-primary-0-snapshots</name>
+        <url>https://tharani.jfrog.io/artifactory/libs-snapshot</url>
+    </snapshotRepository>
+</distributionManagement>
 
 	<dependencies>
 		<dependency>
