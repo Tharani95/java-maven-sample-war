@@ -4,4 +4,4 @@
     - name: Deploy in tomcat
       copy:
         src: target/Example-0.0.6-SNAPSHOT.war
-        dest: /opt/tomcat/webapps
+        dest: /opt/tomcat11/webapps
