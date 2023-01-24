@@ -24,7 +24,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                 <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.organization>tharani95</sonar.organization>
-		
+		<sonar.login>tharani95</sonar.login>
+                <sonar.password>adhidev@18</sonar.password>
 	</properties>
 
 <distributionManagement>
